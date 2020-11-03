@@ -46,7 +46,7 @@ class GrandeBot(sc2.BotAI):
 
     async def build_workers(self):
         if (len(self.units(UnitTypeId.NEXUS)) * 16) > len(self.units(UnitTypeId.PROBE)) and len(self.units(UnitTypeId.PROBE)) < self.MAX_WORKERS:
-            for nexus in self.units(UnitTypeId.NEXUS).ready.noqueue:
+            for nexus in self.units(UnitTypeId.NEXUS).ready.idle:
                 if self.can_afford(UnitTypeId.PROBE) and nexus.assigned_harvesters < 17:
                     await self.do(nexus.train(UnitTypeId.PROBE))
 
@@ -107,7 +107,7 @@ class GrandeBot(sc2.BotAI):
         for gateway in self.units(UnitTypeId.GATEWAY):
             if len(self.units(UnitTypeId.STALKER)) < len(self.units(UnitTypeId.ZEALOT)):
                 break
-            if self.units(UnitTypeId.GATEWAY).ready.noqueue:
+            if self.units(UnitTypeId.GATEWAY).ready.idle:
                 if self.can_afford(UnitTypeId.ZEALOT) and self.supply_left > 0 and len(self.units(UnitTypeId.ZEALOT)) < (self.units(UnitTypeId.GATEWAY) * (self.time / self.ONE_MINUTE)):
                     await self.do(gateway.train(UnitTypeId.ZEALOT))
 
